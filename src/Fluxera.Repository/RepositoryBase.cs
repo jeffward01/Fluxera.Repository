@@ -91,6 +91,15 @@
 		}
 
 		/// <inheritdoc />
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			await this.UpdateAsync(item, cancellationToken, propertiesToUpdate);
+		}
+
+		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.UpdateRangeAsync(items, cancellationToken).ConfigureAwait(false);
@@ -651,6 +660,18 @@
 		/// <param name="cancellationToken"></param>
 		/// <returns></returns>
 		protected abstract Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken);
+		
+		
+		/// <summary>
+		///     Updates <b>only</b> the provided <paramref name="propertiesToUpdate" />  of the target <paramref name="item" />
+		/// </summary>
+		/// <param name="item">The item to update</param>
+		/// <param name="cancellationToken">The cancellation token</param>
+		/// <param name="propertiesToUpdate">The target properties to apply the update to</param>
+		protected abstract Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate);
 
 		/// <summary>
 		///     Updates the items in the underlying store.

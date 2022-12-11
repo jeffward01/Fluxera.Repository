@@ -70,6 +70,20 @@
 			await this.cachingStrategy.UpdateAsync(item).ConfigureAwait(false);
 		}
 
+ 
+		/// <inheritdoc />
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			await this.innerRepository.UpdateAsync(item, cancellationToken, propertiesToUpdate)
+				.ConfigureAwait(false);
+
+			await this.cachingStrategy.UpdateAsync(item)
+				.ConfigureAwait(false);
+		}
+
 		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{

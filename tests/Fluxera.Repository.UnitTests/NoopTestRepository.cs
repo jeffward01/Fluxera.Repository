@@ -30,6 +30,15 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			 
+		}
+
+		/// <inheritdoc />
 		public async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 		}

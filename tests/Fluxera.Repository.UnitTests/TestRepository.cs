@@ -34,6 +34,15 @@ namespace Fluxera.Repository.UnitTests
 		}
 
 		/// <inheritdoc />
+		public async Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			throw new NotImplementedException();

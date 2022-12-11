@@ -65,6 +65,15 @@
 		}
 
 		/// <inheritdoc />
+		public async Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			await this.innerRepository.UpdateAsync(item, cancellationToken, propertiesToUpdate);
+		}
+
+		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			await this.innerRepository.UpdateRangeAsync(items, cancellationToken);

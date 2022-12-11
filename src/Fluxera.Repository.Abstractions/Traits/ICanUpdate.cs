@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -17,7 +18,7 @@
 	/// <typeparam name="TAggregateRoot">Generic repository aggregate root type.</typeparam>
 	/// <typeparam name="TKey">The type of the ID.</typeparam>
 	[PublicAPI]
-	public interface ICanUpdate<in TAggregateRoot, in TKey> : IProvideRepositoryName<TAggregateRoot, TKey>
+	public interface ICanUpdate<TAggregateRoot, in TKey> : IProvideRepositoryName<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
@@ -26,13 +27,28 @@
 		/// </summary>
 		/// <param name="item">The item to update.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task UpdateAsync(TAggregateRoot item, CancellationToken cancellationToken = default);
+		Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken = default);
+
+		/// <summary>
+		///     Updates <b>only</b> the provided <paramref name="propertiesToUpdate" />  of the target <paramref name="item" />
+		/// </summary>
+		/// <param name="item">The item to update</param>
+		/// <param name="cancellationToken">The cancellation token</param>
+		/// <param name="propertiesToUpdate">The target properties to apply the update to</param>
+		Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate);
 
 		/// <summary>
 		///     Updates the given instances in the underlying store.
 		/// </summary>
 		/// <param name="items">The items to update.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken = default);
+		Task UpdateRangeAsync(
+			IEnumerable<TAggregateRoot> items,
+			CancellationToken cancellationToken = default);
 	}
 }

@@ -1,6 +1,7 @@
 [![Build Status](https://dev.azure.com/fluxera/Foundation/_apis/build/status/GitHub/fluxera.Fluxera.Repository?branchName=main&stageName=BuildAndTest)](https://dev.azure.com/fluxera/Foundation/_build/latest?definitionId=88&branchName=main)
 
 # Fluxera.Repository
+
 A generic repository implementation.
 
 This repository implementation hides the actual storage implementation from the user.
@@ -68,7 +69,7 @@ implementation provides several additional features.
 ### Traits
 
 Sometimes you don't want to expose the complete repository interface to you specialized implementations
-and sometimes even the ```IReadOnlyRepository``` may be too much. For those cases you can just use 
+and sometimes even the ```IReadOnlyRepository``` may be too much. For those cases you can just use
 the trait interfaces yo want to support.
 
 - **```ICanAdd```**
@@ -98,7 +99,7 @@ In the most basic form you can execute find queries using expressions that provi
 to satify by the result items. But this may lead to queries cluttered around your application,
 maybe duplicating code in several places. Updating queries may then become cumbersome in the future.
 To prevent this from happening you can create specialized specification classes that encapsulate
-queries, or parts of queries and can be re-used in your application. Any specification class can 
+queries, or parts of queries and can be re-used in your application. Any specification class can
 be combines with others using operations like ```And```, ```Or```, ```Not```.
 
 You can f.e. have a specification that finds all persons by name and another one that finds all
@@ -182,8 +183,8 @@ The layers of decorators a executed in the following order.
   the result of a query from the cache and if none was found executes the query and stores the
   result, in the cache.
 - **Domain Events**
-  This decorator dispatches added domain events after an item was added, updated or removed. 
-  The exact time of execution depends on the configuration of the repository. If UoW is enabled 
+  This decorator dispatches added domain events after an item was added, updated or removed.
+  The exact time of execution depends on the configuration of the repository. If UoW is enabled
   the domain events are dispatched to a outbox queue and flushed to the event handlers when the
   UoW saves the work. If the UoW is disabled the domain events are immediately dispatched to the
   event handlers after the item was added, updated or removed.
@@ -193,10 +194,10 @@ The layers of decorators a executed in the following order.
 
 ## Unit of Work
 
-The Unit of Work (UoW) pattern is disabled by default an  can be enabled using the ```EnableUnitOfWork``` method
+The Unit of Work (UoW) pattern is disabled by default an can be enabled using the ```EnableUnitOfWork``` method
 of the ```IRepositoryOptionsBuilder```.
 
-When enabled, a simple call to, f.e. ```AddAsync(item)``` will not persist the given item instantly. The 
+When enabled, a simple call to, f.e. ```AddAsync(item)``` will not persist the given item instantly. The
 add operation is added to the UoW instance and is executed when the UoW for the repository saves the changes.
 
 ```C#
@@ -215,7 +216,7 @@ await this.repository.AddAsync(new Company
 await this.unitOfWork.SaveChangesAsync();
 ```
 
-Due to the fact that this library supports multiple, different repositories at the same time, a UoW 
+Due to the fact that this library supports multiple, different repositories at the same time, a UoW
 instance can not be obtained directly using dependency injection. You can get a UoW instance from
 the ```IUnitOfWorkFactory``` with the name of the repository.
 
@@ -300,7 +301,7 @@ services.AddRepository(builder =>
 });
 ```
 
-Storage-specific options are configure using a repository-specific context class. 
+Storage-specific options are configure using a repository-specific context class.
 The following example shows the configuration of a MongoDB repository.
 
 ```C#
@@ -314,7 +315,8 @@ public class SampleMongoContext : MongoContext
 }
 ```
 
-The context types are registered as scoped services in the container. The ```void ConfigureOptions(MongoContextOptions options)```
+The context types are registered as scoped services in the container.
+The ```void ConfigureOptions(MongoContextOptions options)```
 method is called whenever an instance of the context is created. In a web application this will occur for
 every request. You can then modify, f.e. the connection strings or database names to use for this context instance.
 

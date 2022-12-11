@@ -123,6 +123,14 @@
 		}
 
 		/// <inheritdoc />
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			throw new NotImplementedException();
+		}
+		/// <inheritdoc />
 		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IEnumerable<TAggregateRoot> itemsList = items.ToList();

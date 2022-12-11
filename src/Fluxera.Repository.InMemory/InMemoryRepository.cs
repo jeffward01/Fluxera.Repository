@@ -180,6 +180,15 @@
 		}
 
 		/// <inheritdoc />
+		protected override async Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <inheritdoc />
 		protected override async Task UpdateRangeAsync(IEnumerable<TAggregateRoot> items, CancellationToken cancellationToken)
 		{
 			IList<TAggregateRoot> itemList = items.ToList();

@@ -26,7 +26,10 @@
 		}
 
 		/// <inheritdoc />
-		protected override async Task SetAsync<T>(string key, T value, TimeSpan? expiration = null)
+		protected override async Task SetAsync<T>(
+			string key,
+			T value,
+			TimeSpan? expiration = null)
 		{
 			DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();
 			if(expiration.HasValue)
@@ -34,16 +37,14 @@
 				options.AbsoluteExpirationRelativeToNow = expiration;
 			}
 
-			await this.distributedCache
-				.SetAsJsonAsync(key, value, options)
+			await this.distributedCache.SetAsJsonAsync(key, value, options)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task<T> GetAsync<T>(string key)
 		{
-			T item = await this.distributedCache
-				.GetAsJsonAsync<T>(key)
+			T item = await this.distributedCache.GetAsJsonAsync<T>(key)
 				.ConfigureAwait(false);
 
 			return item;
@@ -52,23 +53,23 @@
 		/// <inheritdoc />
 		protected override async Task RemoveAsync(string key)
 		{
-			await this.distributedCache
-				.RemoveAsync(key)
+			await this.distributedCache.RemoveAsync(key)
 				.ConfigureAwait(false);
 		}
 
 		/// <inheritdoc />
 		protected override async Task<bool> ExistsAsync(string key)
 		{
-			byte[] item = await this.distributedCache
-				.GetAsync(key)
+			byte[] item = await this.distributedCache.GetAsync(key)
 				.ConfigureAwait(false);
 
 			return item != null;
 		}
 
 		/// <inheritdoc />
-		protected override async Task<long> IncrementAsync(string key, long incrementValue)
+		protected override async Task<long> IncrementAsync(
+			string key,
+			long incrementValue)
 		{
 			// https://gist.github.com/JCKodel/d3467a66350af98ee61c74f5ebd804be
 
@@ -79,9 +80,11 @@
 			await Semaphore.WaitAsync();
 			try
 			{
-				long value = await this.GetAsync<long>(key).ConfigureAwait(false);
+				long value = await this.GetAsync<long>(key)
+					.ConfigureAwait(false);
 				value += incrementValue;
-				await this.SetAsync(key, value, TimeSpan.MaxValue).ConfigureAwait(false);
+				await this.SetAsync(key, value, TimeSpan.MaxValue)
+					.ConfigureAwait(false);
 
 				return value;
 			}

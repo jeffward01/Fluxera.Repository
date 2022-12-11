@@ -82,6 +82,15 @@
 
 			await this.innerRepository.UpdateRangeAsync(itemsList, cancellationToken).ConfigureAwait(false);
 		}
+		
+		/// <inheritdoc />
+		async Task ICanUpdate<TAggregateRoot, TKey>.UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			throw new NotImplementedException();
+		}
 
 		/// <inheritdoc />
 		async Task ICanRemove<TAggregateRoot, TKey>.RemoveAsync(TAggregateRoot item, CancellationToken cancellationToken)

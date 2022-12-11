@@ -22,8 +22,10 @@
 		public static async Task<long> GetGlobalCounterAsync()
 		{
 			long counter = CachePrefixManager != null
-				? await CachePrefixManager.GetGlobalCounterAsync().ConfigureAwait(false)
+				? await CachePrefixManager.GetGlobalCounterAsync()
+					.ConfigureAwait(false)
 				: 0;
+
 			return counter;
 		}
 
@@ -33,10 +35,13 @@
 		/// <returns></returns>
 		public static async Task InvalidateGlobal()
 		{
-			Guard.Against.Null(CachePrefixManager, nameof(CachePrefixManager),
+			Guard.Against.Null(
+				CachePrefixManager,
+				nameof(CachePrefixManager),
 				"Configure the CacheManager.CachePrefixManager in order to handle invalidating the global cache.");
 
-			await CachePrefixManager.IncrementGlobalCounterAsync().ConfigureAwait(false);
+			await CachePrefixManager.IncrementGlobalCounterAsync()
+				.ConfigureAwait(false);
 		}
 	}
 }

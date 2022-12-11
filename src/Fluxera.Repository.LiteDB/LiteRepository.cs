@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Linq.Expressions;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.Entity;
@@ -168,6 +169,15 @@
 			{
 				await PerformUpdateAsync().ConfigureAwait(false);
 			}
+		}
+
+		/// <inheritdoc />
+		protected override async Task UpdateAsync(
+			TAggregateRoot item,
+			CancellationToken cancellationToken,
+			params Expression<Func<TAggregateRoot, object>>[] propertiesToUpdate)
+		{
+			throw new NotImplementedException();
 		}
 
 		/// <inheritdoc />
