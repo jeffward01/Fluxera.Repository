@@ -181,6 +181,8 @@
 					return false;
 				}
 
+				
+				UpdateAsync(item, new CancellationTokenSource().Token, _ => _.ID, _ => _)
 				return false;
 			}
 		}
